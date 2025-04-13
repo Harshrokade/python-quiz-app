@@ -118,7 +118,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Harsh Rokade
 
-- GitHub: [@harshrokade](https://github.com/johnsmith)
+- GitHub: [@harshrokade](https://github.com/Harshrokade)
 - Email: harshrokade95@gmail.com
 
 
