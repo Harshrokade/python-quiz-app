@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="results-card">
+            <h1>Quiz Results</h1>
+            
+            <div class="score-summary">
+                <div class="score-circle {% if percentage >= 70 %}good{% elif percentage >= 50 %}average{% else %}poor{% endif %}">
+                    <span class="score-percentage">{{ percentage|int }}%</span>
+                </div>
+                <div class="score-details">
+                    <p>You scored <strong>{{ correct }}</strong> out of <strong>{{ total }}</strong></p>
+                    {% if percentage >= 80 %}
+                        <p class="score-message">Excellent! You have a strong understanding of Python.</p>
+                    {% elif percentage >= 60 %}
+                        <p class="score-message">Good job! You have a solid grasp of Python basics.</p>
+                    {% elif percentage >= 40 %}
+                        <p class="score-message">Not bad, but there's room for improvement.</p>
+                    {% else %}
+                        <p class="score-message">Keep studying! Python takes practice to master.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% if wrong_answers %}
+                <div class="wrong-answers">
+                    <h2>Review Your Mistakes</h2>
+                    {% for answer in wrong_answers %}
+                        <div class="wrong-answer-box">
+                            <h3>Question {{ loop.index }}</h3>
+                            <p class="question-text">{{ answer.question }}</p>
+                            
+                            <div class="answer-comparison">
+                                <div class="user-answer {% if answer.user_answer == 'timeout' %}timeout{% else %}incorrect{% endif %}">
+                                    <h4>Your Answer</h4>
+                                    <p>{{ answer.user_option }}</p>
+                                </div>
+                                <div class="correct-answer">
+                                    <h4>Correct Answer</h4>
+                                    <p>{{ answer.correct_option }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="explanation">
+                                <h4>Explanation</h4>
+                                <p>{{ answer.explanation }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <div class="action-buttons">
+                <a href="{{ url_for('index') }}" class="retry-btn">Try Again</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

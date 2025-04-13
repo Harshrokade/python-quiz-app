@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-card">
+            <div class="quiz-header">
+                <div class="quiz-progress">
+                    <span>Question {{ question_number }} of {{ total_questions }}</span>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: {{ (question_number / total_questions) * 100 }}%"></div>
+                    </div>
+                </div>
+                <div class="timer">
+                    <div class="timer-circle">
+                        <svg width="70" height="70">
+                            <circle class="timer-bg" cx="35" cy="35" r="30"></circle>
+                            <circle class="timer-progress" cx="35" cy="35" r="30" id="timer-circle"></circle>
+                        </svg>
+                        <span id="timer-text">30</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="question-box">
+                <h2>{{ question.question }}</h2>
+            </div>
+            
+            <form id="quiz-form" action="{{ url_for('submit') }}" method="post">
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="answer" id="a" value="a">
+                        <label for="a">{{ question.a }}</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="answer" id="b" value="b">
+                        <label for="b">{{ question.b }}</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="answer" id="c" value="c">
+                        <label for="c">{{ question.c }}</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="answer" id="d" value="d">
+                        <label for="d">{{ question.d }}</label>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">Submit Answer</button>
+            </form>
+            
+            <form id="timeout-form" action="{{ url_for('timeout') }}" method="post" style="display: none;">
+                <input type="hidden" name="timeout" value="true">
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Timer functionality
+        const TIMER_DURATION = 30; // seconds
+        let timeLeft = TIMER_DURATION;
+        const timerText = document.getElementById('timer-text');
+        const timerCircle = document.getElementById('timer-circle');
+        const circumference = 2 * Math.PI * 30; // 2πr where r=30
+        
+        // Set initial timer circle properties
+        timerCircle.style.strokeDasharray = circumference;
+        timerCircle.style.strokeDashoffset = 0;
+        
+        // Start the timer
+        const timer = setInterval(() => {
+            timeLeft--;
+            timerText.textContent = timeLeft;
+            
+            // Update the timer circle
+            const offset = circumference * (1 - timeLeft / TIMER_DURATION);
+            timerCircle.style.strokeDashoffset = offset;
+            
+            // Change color as time runs out
+            if (timeLeft <= 10) {
+                timerCircle.style.stroke = '#ff9800'; // Orange
+            }
+            if (timeLeft <= 5) {
+                timerCircle.style.stroke = '#f44336'; // Red
+            }
+            
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                document.getElementById('timeout-form').submit();
+            }
+        }, 1000);
+        
+        // Anti-cheating: Detect tab switching
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // User switched tabs, automatically end the quiz
+                clearInterval(timer);
+                document.getElementById('timeout-form').submit();
+            }
+        });
+        
+        // Prevent form resubmission on page refresh
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-card">
+            <h1>Python Quiz Challenge</h1>
+            <div class="quiz-info">
+                <p>Test your Python knowledge with this interactive quiz!</p>
+                <ul>
+                    <li>20 randomly selected questions</li>
+                    <li>30 seconds per question</li>
+                    <li>Detailed explanations for wrong answers</li>
+                </ul>
+                <div class="rules">
+                    <h3>Rules:</h3>
+                    <ul>
+                        <li>You must answer each question within 30 seconds</li>
+                        <li>Switching tabs or windows will end the quiz</li>
+                        <li>Each question has only one correct answer</li>
+                    </ul>
+                </div>
+            </div>
+            <a href="{{ url_for('quiz') }}" class="start-btn">Start Quiz</a>
+        </div>
+    </div>
+</body>
+</html>
