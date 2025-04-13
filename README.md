@@ -116,11 +116,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
  👨‍💻 Author
 
-John Smith
+Harsh Rokade
 
-- GitHub: [@johnsmith](https://github.com/johnsmith)
-- Email: john.smith@example.com
-- Website: [johnsmith.dev](https://johnsmith.dev)
+- GitHub: [@harshrokade](https://github.com/johnsmith)
+- Email: harshrokade95@gmail.com
+
 
 ---
 
